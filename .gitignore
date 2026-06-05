@@ -1,0 +1,7 @@
+research/index.html
+research/*/index.html
+sitemap.xml
+robots.txt
+__pycache__/
+*.pyc
+.venv/
