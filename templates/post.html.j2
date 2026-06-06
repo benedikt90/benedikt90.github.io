@@ -53,6 +53,7 @@
       --toc-active:      #8ab8e0;
       --glow:            rgba(100, 140, 255, 0.4);
       --glow-sm:         rgba(100, 140, 255, 0.35);
+      --img-shadow:      0 2px 14px rgba(0, 0, 0, 0.35), 0 0 18px rgba(80, 140, 255, 0.12);
       --accent-bg:       rgba(80, 120, 255, 0.05);
       --accent-hover:    rgba(80, 120, 255, 0.10);
     }
@@ -83,6 +84,7 @@
       --toc-active:      #1a4a90;
       --glow:            rgba(60, 100, 200, 0.22);
       --glow-sm:         rgba(60, 100, 200, 0.15);
+      --img-shadow:      0 2px 12px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.08);
       --accent-bg:       rgba(60, 100, 200, 0.05);
       --accent-hover:    rgba(60, 100, 200, 0.12);
     }
@@ -129,14 +131,25 @@
     [data-theme="light"] .icon-moon { display: block; }
     [data-theme="light"] .icon-sun  { display: none; }
 
-    /* ── Top bar ── */
+    /* ── Top bar (hides on scroll-down, reappears on scroll-up) ── */
     .topbar {
-      position: relative;
+      position: sticky;
+      top: 0;
       z-index: 2;
       padding: 1rem 2rem;
       display: flex;
       align-items: center;
       border-bottom: 1px solid var(--border-muted);
+      background: var(--surface-dark);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transform: translateY(0);
+      transition: transform 0.28s ease, opacity 0.28s ease;
+    }
+    .topbar.hide {
+      transform: translateY(-100%);
+      opacity: 0;
+      pointer-events: none;
     }
 
     .topbar > a {
@@ -355,7 +368,7 @@
       margin: 0 auto;
       border-radius: 6px;
       border: 1px solid var(--border);
-      box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border-muted);
+      box-shadow: var(--img-shadow);
       cursor: zoom-in;
     }
 
@@ -376,7 +389,7 @@
       margin: 2rem auto;
       border-radius: 6px;
       border: 1px solid var(--border);
-      box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px var(--border-muted);
+      box-shadow: var(--img-shadow);
     }
 
     /* ── Tables ── */
@@ -443,6 +456,9 @@
       .toc-sidebar a:hover { color: var(--text-heading); border-color: var(--border-strong); }
       .toc-sidebar a.active { color: var(--toc-active); border-color: var(--toc-active); }
     }
+
+    /* Always hidden; shown only via .open on mobile */
+    #toc-dropdown { display: none; }
 
     /* ── TOC mobile bar ── */
     .toc-bar { display: none; }
@@ -777,6 +793,25 @@
   });
 })();
 
+// ── Topbar hide on scroll-down, show on scroll-up ────────────────────────────
+(function () {
+  const bar = document.querySelector('.topbar');
+  if (!bar) return;
+  let last = window.scrollY, ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const cur = window.scrollY;
+        if (cur > last && cur > 80) bar.classList.add('hide');
+        else bar.classList.remove('hide');
+        last = cur;
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+})();
+
 // ── TOC scroll-spy + mobile toggle ───────────────────────────────────────────
 (function () {
   const sidebarLinks = document.querySelectorAll('.toc-sidebar a');
@@ -803,7 +838,10 @@
   }
 
   const topBtn = document.getElementById('toc-top-btn');
-  if (topBtn) topBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  if (topBtn) topBtn.addEventListener('click', () => {
+    document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+    document.body.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 })();
 
 // ── Lightbox ──────────────────────────────────────────────────────────────────
