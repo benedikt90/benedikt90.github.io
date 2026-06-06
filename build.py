@@ -51,11 +51,13 @@ POST_TEMPLATE = """\
       overflow-x: hidden;
     }}
 
+    html {{ scroll-behavior: smooth; }}
+
     #bg {{
       position: fixed;
       inset: 0;
       z-index: 0;
-      opacity: 0.18;
+      opacity: 0.14;
     }}
 
     /* ── Top bar ── */
@@ -78,7 +80,6 @@ POST_TEMPLATE = """\
     }}
 
     .topbar a:hover {{ color: #c8d8f0; }}
-
     .topbar a::before {{ content: '← '; }}
 
     /* ── Layout ── */
@@ -87,7 +88,17 @@ POST_TEMPLATE = """\
       z-index: 1;
       max-width: 780px;
       margin: 0 auto;
-      padding: 2.5rem 2rem 5rem;
+      padding: 2rem 2rem 4rem;
+    }}
+
+    /* ── Glass reading panel ── */
+    .content {{
+      background: rgba(8, 12, 20, 0.62);
+      backdrop-filter: blur(10px) saturate(1.1);
+      -webkit-backdrop-filter: blur(10px) saturate(1.1);
+      border: 1px solid rgba(100, 140, 255, 0.13);
+      border-radius: 8px;
+      padding: 2.5rem 3rem;
     }}
 
     /* ── Post header ── */
@@ -157,9 +168,10 @@ POST_TEMPLATE = """\
       margin-top: 2.4rem;
       margin-bottom: 0.75rem;
       line-height: 1.3;
+      scroll-margin-top: 1.5rem;
     }}
 
-    article h1 {{ font-size: 1.65rem; display: none; }} /* title shown in .post-title */
+    article h1 {{ font-size: 1.65rem; display: none; }}
     article h2 {{ font-size: 1.25rem; border-bottom: 1px solid rgba(100,140,255,0.1); padding-bottom: 0.4rem; }}
     article h3 {{ font-size: 1.05rem; color: #b8d0ff; text-shadow: none; }}
     article h4 {{ font-size: 0.95rem; color: #8aaad0; text-shadow: none; letter-spacing: 0.08em; text-transform: uppercase; }}
@@ -177,9 +189,7 @@ POST_TEMPLATE = """\
     article strong {{ color: #d0e4ff; font-weight: 600; }}
     article em {{ color: #9ab8d8; font-style: italic; }}
 
-    article ul, article ol {{
-      margin: 0.4rem 0 1.2rem 1.6rem;
-    }}
+    article ul, article ol {{ margin: 0.4rem 0 1.2rem 1.6rem; }}
     article li {{ margin-bottom: 0.4rem; }}
     article li p {{ margin-bottom: 0; }}
 
@@ -234,23 +244,44 @@ POST_TEMPLATE = """\
     .codehilite .hll {{ background-color: rgba(100,140,255,0.1); }}
     .codehilite .c  {{ color: #556670; font-style: italic; }}
     .codehilite .k  {{ color: #7ab4f5; font-weight: bold; }}
-    .codehilite .s  {{ color: #7ec8a0; }}
-    .codehilite .s1 {{ color: #7ec8a0; }}
-    .codehilite .s2 {{ color: #7ec8a0; }}
+    .codehilite .s, .codehilite .s1, .codehilite .s2 {{ color: #7ec8a0; }}
     .codehilite .n  {{ color: #c8d8f0; }}
     .codehilite .na {{ color: #a8d8b0; }}
     .codehilite .nb {{ color: #7ab4f5; }}
     .codehilite .nc {{ color: #e0c878; }}
     .codehilite .nf {{ color: #a8c8ff; }}
     .codehilite .o  {{ color: #7a9acc; }}
-    .codehilite .mi {{ color: #f0a878; }}
-    .codehilite .mf {{ color: #f0a878; }}
-    .codehilite .cm {{ color: #556670; font-style: italic; }}
+    .codehilite .mi, .codehilite .mf {{ color: #f0a878; }}
+    .codehilite .cm, .codehilite .c1, .codehilite .cs {{ color: #556670; font-style: italic; }}
     .codehilite .cp {{ color: #7a9acc; }}
-    .codehilite .c1 {{ color: #556670; font-style: italic; }}
-    .codehilite .cs {{ color: #556670; font-style: italic; }}
 
-    /* ── Images ── */
+    /* ── Figures + captions ── */
+    article figure {{
+      margin: 2rem 0;
+      text-align: center;
+    }}
+
+    article figure img {{
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+      border-radius: 6px;
+      border: 1px solid rgba(100, 140, 255, 0.15);
+      box-shadow: 0 4px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(100, 140, 255, 0.06);
+    }}
+
+    article figcaption {{
+      font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 0.8rem;
+      line-height: 1.55;
+      color: #4a6a8a;
+      margin-top: 0.65rem;
+      padding: 0 1rem;
+      font-style: italic;
+    }}
+
+    /* fallback for bare <img> not wrapped in figure */
     article img {{
       display: block;
       max-width: 100%;
@@ -285,6 +316,166 @@ POST_TEMPLATE = """\
     }}
     article tr:hover td {{ background: rgba(80, 120, 255, 0.04); }}
 
+    /* ── TOC sidebar (desktop ≥ 1200px) ── */
+    .toc-sidebar {{
+      display: none;
+    }}
+
+    @media (min-width: 1200px) {{
+      .toc-sidebar {{
+        display: block;
+        position: fixed;
+        top: 5rem;
+        left: calc(50% - 590px);
+        width: 170px;
+        z-index: 2;
+      }}
+
+      .toc-sidebar nav {{
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.06em;
+      }}
+
+      .toc-sidebar .toc-label {{
+        font-size: 0.62rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #2a4a6a;
+        margin-bottom: 0.6rem;
+      }}
+
+      .toc-sidebar a {{
+        display: block;
+        color: #4a6a8a;
+        text-decoration: none;
+        padding: 0.22rem 0;
+        border-left: 2px solid transparent;
+        padding-left: 0.6rem;
+        line-height: 1.35;
+        transition: color 0.15s, border-color 0.15s;
+      }}
+
+      .toc-sidebar a:hover {{ color: #a8c8e8; border-color: rgba(100,140,255,0.3); }}
+      .toc-sidebar a.active {{ color: #8ab8e0; border-color: rgba(100,140,255,0.6); }}
+    }}
+
+    /* ── TOC mobile bar ── */
+    .toc-bar {{
+      display: none;
+    }}
+
+    @media (max-width: 1199px) {{
+      .toc-bar {{
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        background: rgba(6, 10, 18, 0.92);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-top: 1px solid rgba(100, 140, 255, 0.12);
+        padding: 0.55rem 1rem;
+        gap: 0.5rem;
+        align-items: center;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+      }}
+
+      .toc-bar button {{
+        background: none;
+        border: 1px solid rgba(100, 140, 255, 0.2);
+        border-radius: 3px;
+        color: #7a9acc;
+        font-family: inherit;
+        font-size: inherit;
+        letter-spacing: inherit;
+        padding: 0.3rem 0.7rem;
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s;
+        flex-shrink: 0;
+      }}
+
+      .toc-bar button:hover {{ background: rgba(80,120,255,0.1); color: #c8d8f0; }}
+
+      .toc-bar .toc-top {{
+        margin-left: auto;
+      }}
+
+      .toc-dropdown {{
+        display: none;
+        position: fixed;
+        bottom: 2.8rem;
+        left: 0;
+        right: 0;
+        background: rgba(6, 10, 18, 0.96);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(100, 140, 255, 0.12);
+        padding: 0.75rem 1rem 0.5rem;
+        z-index: 9;
+        max-height: 60vh;
+        overflow-y: auto;
+      }}
+
+      .toc-dropdown.open {{ display: block; }}
+
+      .toc-dropdown a {{
+        display: block;
+        color: #6a8aaa;
+        text-decoration: none;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.78rem;
+        letter-spacing: 0.06em;
+        padding: 0.45rem 0;
+        border-bottom: 1px solid rgba(100,140,255,0.06);
+        transition: color 0.15s;
+      }}
+
+      .toc-dropdown a:hover {{ color: #c8d8f0; }}
+      .toc-dropdown a:last-child {{ border-bottom: none; }}
+    }}
+
+    /* ── Ko-fi block ── */
+    .kofi-block {{
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(100, 140, 255, 0.1);
+      text-align: center;
+    }}
+
+    .kofi-block a {{
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      text-decoration: none;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: #3a5a7a;
+      border: 1px solid rgba(100, 140, 255, 0.1);
+      border-radius: 2px;
+      padding: 0.45rem 0.9rem;
+      background: rgba(80, 120, 255, 0.03);
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }}
+
+    .kofi-block a:hover {{
+      background: rgba(80, 120, 255, 0.1);
+      color: #a0bce8;
+      border-color: rgba(100, 140, 255, 0.25);
+    }}
+
+    .kofi-block svg {{
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }}
+
     /* ── Footer ── */
     footer {{
       position: relative;
@@ -297,8 +488,13 @@ POST_TEMPLATE = """\
       border-top: 1px solid rgba(100, 140, 255, 0.08);
     }}
 
+    @media (max-width: 1199px) {{
+      footer {{ padding-bottom: 4rem; }}
+    }}
+
     @media (max-width: 600px) {{
-      main {{ padding: 1.5rem 1.2rem 3rem; }}
+      main {{ padding: 1rem 0.8rem 3rem; }}
+      .content {{ padding: 1.5rem 1.2rem; }}
       .topbar {{ padding: 0.8rem 1.2rem; }}
     }}
   </style>
@@ -307,21 +503,33 @@ POST_TEMPLATE = """\
 
 <canvas id="bg"></canvas>
 
+{toc_sidebar_html}
+
 <nav class="topbar">
   <a href="/">Benedikt</a>
 </nav>
 
 <main>
-  <header class="post-meta">
-    <div class="post-date">{date_str}</div>
-    <h1 class="post-title">{title}</h1>
-    <p class="post-description">{description}</p>
-    {tags_html}
-  </header>
-  <article>
-    {body_html}
-  </article>
+  <div class="content">
+    <header class="post-meta">
+      <div class="post-date">{date_str}</div>
+      <h1 class="post-title">{title}</h1>
+      <p class="post-description">{description}</p>
+      {tags_html}
+    </header>
+    <article>
+      {body_html}
+    </article>
+    <div class="kofi-block">
+      <a href="https://ko-fi.com/bened1kt" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.565-1.782 3.468-.963 1.904.82 1.832 3.011.723 4.311zm6.173.478c-.928.116-1.682.028-1.682.028V7.284h1.77s1.971.551 1.971 2.638c0 1.913-.985 2.667-2.059 3.015z"/></svg>
+        If you found this useful, consider buying me a coffee
+      </a>
+    </div>
+  </div>
 </main>
+
+{toc_bar_html}
 
 <footer>// {site_title} &nbsp;·&nbsp; research</footer>
 
@@ -426,6 +634,48 @@ POST_TEMPLATE = """\
   init();
   window.addEventListener('resize', init);
   requestAnimationFrame(draw);
+}})();
+
+// ── TOC scroll-spy + mobile toggle ──────────────────────────────────────────
+(function () {{
+  // Desktop scroll-spy
+  const sidebarLinks = document.querySelectorAll('.toc-sidebar a');
+  if (sidebarLinks.length) {{
+    const headings = Array.from(document.querySelectorAll('article h2'));
+    const observer = new IntersectionObserver(entries => {{
+      entries.forEach(entry => {{
+        if (entry.isIntersecting) {{
+          const id = entry.target.getAttribute('id');
+          sidebarLinks.forEach(a => {{
+            a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+          }});
+        }}
+      }});
+    }}, {{ rootMargin: '-10% 0px -80% 0px', threshold: 0 }});
+    headings.forEach(h => observer.observe(h));
+  }}
+
+  // Mobile: Contents toggle
+  const contentsBtn = document.getElementById('toc-contents-btn');
+  const dropdown    = document.getElementById('toc-dropdown');
+  if (contentsBtn && dropdown) {{
+    contentsBtn.addEventListener('click', () => {{
+      dropdown.classList.toggle('open');
+    }});
+    dropdown.querySelectorAll('a').forEach(a => {{
+      a.addEventListener('click', () => dropdown.classList.remove('open'));
+    }});
+    document.addEventListener('click', e => {{
+      if (!dropdown.contains(e.target) && e.target !== contentsBtn)
+        dropdown.classList.remove('open');
+    }});
+  }}
+
+  // Mobile: ↑ Top
+  const topBtn = document.getElementById('toc-top-btn');
+  if (topBtn) {{
+    topBtn.addEventListener('click', () => window.scrollTo({{ top: 0, behavior: 'smooth' }}));
+  }}
 }})();
 </script>
 </body>
@@ -664,24 +914,69 @@ def format_date(d):
 
 
 def md_to_html(md_text):
-    extensions = [
-        "extra",
-        "sane_lists",
-        "toc",
-        "codehilite",
-    ]
-    extension_configs = {
-        "codehilite": {
-            "css_class": "codehilite",
-            "linenums": False,
-            "guess_lang": True,
-        }
-    }
-    return markdown.markdown(
-        md_text,
-        extensions=extensions,
-        extension_configs=extension_configs,
+    """Return (body_html, h2_tokens) where h2_tokens is [{id, name}, ...]."""
+    md = markdown.Markdown(
+        extensions=["extra", "sane_lists", "toc", "codehilite"],
+        extension_configs={
+            "codehilite": {"css_class": "codehilite", "linenums": False, "guess_lang": True},
+        },
     )
+    html = md.convert(md_text)
+    tokens = getattr(md, "toc_tokens", [])
+    # toc_tokens is a nested tree; H2s sit as children of the root H1 (or top-level)
+    def extract_h2(nodes):
+        for node in nodes:
+            if node.get("level") == 2:
+                yield node
+            elif node.get("level") == 1:
+                yield from extract_h2(node.get("children", []))
+    h2s = list(extract_h2(tokens))
+    return html, h2s
+
+
+def build_toc_html(h2s):
+    """Build sidebar and mobile-bar HTML from a list of {id, name} dicts."""
+    if not h2s:
+        return "", ""
+
+    links = "".join(
+        f'<a href="#{t["id"]}">{t["name"]}</a>\n' for t in h2s
+    )
+
+    sidebar = (
+        '<aside class="toc-sidebar">\n'
+        '  <nav>\n'
+        '    <div class="toc-label">Contents</div>\n'
+        f'    {links}'
+        '  </nav>\n'
+        '</aside>\n'
+    )
+
+    dropdown_links = "".join(
+        f'<a href="#{t["id"]}">{t["name"]}</a>\n' for t in h2s
+    )
+    bar = (
+        '<div id="toc-dropdown" class="toc-dropdown">\n'
+        f'  {dropdown_links}'
+        '</div>\n'
+        '<div class="toc-bar">\n'
+        '  <button id="toc-contents-btn">Contents</button>\n'
+        '  <button id="toc-top-btn" class="toc-top">↑ Top</button>\n'
+        '</div>\n'
+    )
+    return sidebar, bar
+
+
+def wrap_images_in_figures(html):
+    """Turn <p><img alt="..." src="..."></p> into <figure><img><figcaption>...</figcaption></figure>."""
+    def replacer(m):
+        img_tag = m.group(1)
+        alt_match = re.search(r'alt="([^"]*)"', img_tag)
+        alt = alt_match.group(1) if alt_match else ""
+        caption = f"<figcaption>{alt}</figcaption>" if alt else ""
+        return f"<figure>{img_tag}{caption}</figure>"
+
+    return re.sub(r"<p>(<img\b[^>]+>)</p>", replacer, html)
 
 
 # ── Build posts ───────────────────────────────────────────────────────────────
@@ -699,7 +994,9 @@ def build_post(readme_path):
         print(f"  skip (draft): {slug}")
         return None
 
-    body_html = md_to_html(body_md)
+    body_html, h2s = md_to_html(body_md)
+    body_html = wrap_images_in_figures(body_html)
+    toc_sidebar_html, toc_bar_html = build_toc_html(h2s)
 
     # Resolve metadata with fallbacks
     title = meta.get("title") or first_heading(body_md)
@@ -730,6 +1027,8 @@ def build_post(readme_path):
         date_str=date_str,
         tags_html=render_tags(tags),
         body_html=body_html,
+        toc_sidebar_html=toc_sidebar_html,
+        toc_bar_html=toc_bar_html,
     )
 
     out_path = os.path.join(post_dir, "index.html")
