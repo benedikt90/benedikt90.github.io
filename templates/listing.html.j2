@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research – {{ site_title }}</title>
+  <meta name="description" content="Security research and writing by {{ site_title }}." />
+  <link rel="canonical" href="{{ canonical }}" />
+  <meta property="og:title" content="Research – {{ site_title }}" />
+  <meta property="og:description" content="Security research and writing by {{ site_title }}." />
+  <meta property="og:url" content="{{ canonical }}" />
+  <style>
+  {% raw %}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: #080c08;
+      font-family: 'Courier New', Courier, monospace;
+      overflow-x: hidden;
+    }
+
+    #bg { position: fixed; inset: 0; z-index: 0; opacity: 0.18; }
+
+    .topbar {
+      position: relative; z-index: 2;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid rgba(100,140,255,0.1);
+    }
+
+    .topbar a {
+      color: #7a9acc; text-decoration: none;
+      font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .topbar a:hover { color: #c8d8f0; }
+    .topbar a::before { content: '← '; }
+
+    main {
+      position: relative; z-index: 1;
+      max-width: 780px; margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
+    h1 {
+      font-size: 1.5rem; letter-spacing: 0.08em;
+      color: #e8f0ff; text-shadow: 0 0 20px rgba(100,140,255,0.4);
+      margin-bottom: 0.4rem;
+    }
+
+    .section-sub {
+      font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase;
+      color: #4a6a9a; margin-bottom: 2.5rem;
+    }
+
+    .post-list { list-style: none; }
+
+    .post-item {
+      border: 1px solid rgba(100,140,255,0.1);
+      border-radius: 6px;
+      background: rgba(6,10,18,0.3);
+      backdrop-filter: blur(6px);
+      padding: 1.5rem 1.8rem;
+      margin-bottom: 1.2rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .post-item:hover {
+      border-color: rgba(100,140,255,0.25);
+      background: rgba(6,10,18,0.5);
+    }
+
+    .post-item a { text-decoration: none; }
+
+    .item-date {
+      font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: #4a6a9a; margin-bottom: 0.5rem;
+    }
+
+    .item-title {
+      font-size: 1.05rem; letter-spacing: 0.04em;
+      color: #c8d8f0; line-height: 1.4;
+      transition: color 0.2s; margin-bottom: 0.6rem;
+    }
+
+    .post-item:hover .item-title { color: #e8f0ff; text-shadow: 0 0 12px rgba(100,140,255,0.3); }
+
+    .item-desc {
+      font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 0.88rem; line-height: 1.65; color: #6a8aaa;
+    }
+
+    .item-tags {
+      display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.75rem;
+    }
+
+    .item-tag {
+      font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;
+      border: 1px solid rgba(100,140,255,0.15); border-radius: 2px;
+      padding: 0.15rem 0.45rem; color: #4a6a9a;
+      background: rgba(80,120,255,0.04);
+    }
+
+    footer {
+      position: relative; z-index: 1; text-align: center;
+      padding: 2rem; font-size: 0.72rem; letter-spacing: 0.1em;
+      color: #2a4a7a; border-top: 1px solid rgba(100,140,255,0.08);
+    }
+
+    @media (max-width: 600px) {
+      main { padding: 2rem 1.2rem 3rem; }
+      .topbar { padding: 0.8rem 1.2rem; }
+    }
+  {% endraw %}
+  </style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<nav class="topbar"><a href="/">Benedikt</a></nav>
+<main>
+  <h1>Research</h1>
+  <p class="section-sub">Security research &amp; writing</p>
+  <ul class="post-list">
+    {% for post in posts %}
+    <li class="post-item">
+      <a href="/research/{{ post.slug }}/">
+        <div class="item-date">{{ post.date_str }}</div>
+        <div class="item-title">{{ post.title }}</div>
+        <div class="item-desc">{{ post.description }}</div>
+        {% if post.tags %}
+        <div class="item-tags">
+          {% for tag in post.tags %}<span class="item-tag">{{ tag }}</span>{% endfor %}
+        </div>
+        {% endif %}
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</main>
+<footer>// {{ site_title }} &nbsp;·&nbsp; research</footer>
+<script>
+{% raw %}
+(function () {
+  const canvas = document.getElementById('bg');
+  const ctx    = canvas.getContext('2d');
+  const CHARS  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&?!<>[]{}αβγδεζθλμξπσφψω';
+  let W, H, cx, cy, R, t = 0;
+  const N = 2200, pts = [];
+  (function build() {
+    const g = Math.PI * (3 - Math.sqrt(5));
+    for (let i = 0; i < N; i++) {
+      const y = 1 - (i/(N-1))*2, r = Math.sqrt(1-y*y), p = g*i;
+      pts.push({x: Math.cos(p)*r, y, z: Math.sin(p)*r, ch: CHARS[i%CHARS.length]});
+    }
+  })();
+  function rotYX(x,y,z,ry,rx) {
+    let x1=x*Math.cos(ry)+z*Math.sin(ry), z1=-x*Math.sin(ry)+z*Math.cos(ry);
+    return [x1, y*Math.cos(rx)-z1*Math.sin(rx), y*Math.sin(rx)+z1*Math.cos(rx)];
+  }
+  function proj(x,y,z) { const c=2.2,d=c+z,s=R/c; return [cx+(x/d)*s*c, cy+(y/d)*s*c, d]; }
+  function init() { canvas.width=W=window.innerWidth; canvas.height=H=window.innerHeight; cx=W/2; cy=H/2; R=Math.min(W,H)*1.25; }
+  function draw() {
+    t+=0.012;
+    ctx.fillStyle='rgba(8,12,8,0.35)'; ctx.fillRect(0,0,W,H);
+    const ry=t*0.18, rx=Math.sin(t*0.11)*0.4, br=1+0.04*Math.sin(t*0.9);
+    const vis=[];
+    for (const p of pts) {
+      const th=Math.atan2(p.z,p.x), ph=Math.asin(Math.max(-1,Math.min(1,p.y)));
+      const r=br*(1+0.028*Math.sin(4*th+t*1.3)+0.018*Math.sin(6*ph+t*0.9)+0.012*Math.sin(9*th-t*1.8)+0.008*Math.sin(3*ph+t*2.1));
+      const [rx2,ry2,rz2]=rotYX(p.x*r,p.y*r,p.z*r,ry,rx);
+      const [sx,sy,sdz]=proj(rx2,ry2,rz2);
+      const lx=-0.5,ly=-0.7,lz=0.5,nl=Math.sqrt(0.25+0.49+0.25);
+      const lit=Math.max(0,(rx2*lx+ry2*ly+rz2*lz)/(r*nl));
+      vis.push({sx,sy,sdz,lit,facing:rz2/r,ch:p.ch,hs:(p.y+1)*0.5});
+    }
+    vis.sort((a,b)=>a.sdz-b.sdz);
+    ctx.font='11px monospace';
+    for (const v of vis) {
+      const br2=0.15+v.lit*0.85;
+      ctx.globalAlpha=v.facing>-0.1?br2*0.9:br2*0.15;
+      ctx.fillStyle=`hsl(${120+v.hs*80},${80+Math.floor(v.lit*20)}%,${20+Math.floor(v.lit*45)}%)`;
+      ctx.fillText(v.ch,v.sx,v.sy);
+    }
+    ctx.globalAlpha=1;
+    requestAnimationFrame(draw);
+  }
+  init(); window.addEventListener('resize',init); requestAnimationFrame(draw);
+})();
+{% endraw %}
+</script>
+</body>
+</html>
