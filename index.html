@@ -1,27 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Benedikt – Security Engineer</title>
+  <script>
+    (function() {
+      var t = localStorage.getItem('bentr-theme') ||
+              (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.dataset.theme = t;
+    })();
+  </script>
   <style>
+    :root {
+      --bg:           #080c08;
+      --card-bg:      rgba(6, 10, 18, 0.22);
+      --border:       rgba(100, 180, 255, 0.12);
+      --text:         #c8d8f0;
+      --text-heading: #e8f0ff;
+      --text-muted:   #7a9acc;
+      --text-faint:   #4a6a9a;
+      --glow:         rgba(100, 140, 255, 0.5);
+      --tag-border:   rgba(100, 140, 255, 0.2);
+      --tag-bg:       rgba(80, 120, 255, 0.06);
+      --link-border:  rgba(100, 140, 255, 0.2);
+      --link-bg:      rgba(80, 120, 255, 0.06);
+      --link-bg-h:    rgba(80, 120, 255, 0.16);
+      --link-glow-h:  rgba(80, 120, 255, 0.25);
+      --divider:      rgba(100, 140, 255, 0.15);
+      --avatar-grad:  linear-gradient(135deg, #5b8aff, #1a2a5e);
+      --avatar-glow:  rgba(80, 120, 255, 0.35);
+    }
+
+    [data-theme="light"] {
+      --bg:           #eef2f8;
+      --card-bg:      rgba(255, 255, 255, 0.82);
+      --border:       rgba(60, 100, 200, 0.18);
+      --text:         #1a2840;
+      --text-heading: #0c1824;
+      --text-muted:   #3a5878;
+      --text-faint:   #5a7898;
+      --glow:         rgba(60, 100, 200, 0.2);
+      --tag-border:   rgba(60, 100, 200, 0.2);
+      --tag-bg:       rgba(60, 100, 200, 0.05);
+      --link-border:  rgba(60, 100, 200, 0.2);
+      --link-bg:      rgba(60, 100, 200, 0.05);
+      --link-bg-h:    rgba(60, 100, 200, 0.14);
+      --link-glow-h:  rgba(60, 100, 200, 0.2);
+      --divider:      rgba(60, 100, 200, 0.15);
+      --avatar-grad:  linear-gradient(135deg, #4a7aee, #1a3a8a);
+      --avatar-glow:  rgba(60, 100, 200, 0.3);
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
       height: 100%;
-      background: #080c08;
+      background: var(--bg);
       font-family: 'Courier New', Courier, monospace;
       overflow-x: hidden;
+      transition: background 0.25s;
     }
 
-    /* ── Canvas background ── */
     #bg {
       position: fixed;
       inset: 0;
       z-index: 0;
     }
 
-    /* ── Page layout ── */
+    /* ── Theme toggle (fixed top-right) ── */
+    .theme-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1.25rem;
+      z-index: 10;
+      background: var(--card-bg);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 0.35rem 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s, border-color 0.2s, background 0.25s;
+    }
+    .theme-toggle:hover { color: var(--text-heading); border-color: var(--link-border); }
+    .theme-toggle svg { width: 14px; height: 14px; }
+    .icon-moon { display: none; }
+    .icon-sun  { display: block; }
+    [data-theme="light"] .icon-moon { display: block; }
+    [data-theme="light"] .icon-sun  { display: none; }
+
     main {
       position: relative;
       z-index: 1;
@@ -32,30 +104,27 @@
       padding: 2rem 1rem;
     }
 
-    /* ── Card: glass over the sphere ── */
     .card {
-      background: rgba(6, 10, 18, 0.22);
-      border: 1px solid rgba(100, 180, 255, 0.12);
+      background: var(--card-bg);
+      border: 1px solid var(--border);
       border-radius: 8px;
       backdrop-filter: blur(9px) saturate(1.2);
       -webkit-backdrop-filter: blur(9px) saturate(1.2);
       padding: 2.8rem 3rem;
       max-width: 540px;
       width: 100%;
-      box-shadow:
-        0 0 0 1px rgba(100, 180, 255, 0.05),
-        0 8px 48px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 0 0 1px var(--tag-bg), 0 8px 48px rgba(0, 0, 0, 0.3);
       text-align: center;
-      color: #c8d8f0;
+      color: var(--text);
+      transition: background 0.25s, border-color 0.25s;
     }
 
-    /* ── Avatar ── */
     .avatar-wrap {
       display: inline-block;
       border-radius: 50%;
       padding: 3px;
-      background: linear-gradient(135deg, #5b8aff, #1a2a5e);
-      box-shadow: 0 0 22px rgba(80, 120, 255, 0.35);
+      background: var(--avatar-grad);
+      box-shadow: 0 0 22px var(--avatar-glow);
       margin-bottom: 1.4rem;
     }
 
@@ -68,45 +137,41 @@
       filter: grayscale(15%) contrast(1.05);
     }
 
-    /* ── Heading ── */
     h1 {
       font-size: 2rem;
       letter-spacing: 0.08em;
-      color: #e8f0ff;
-      text-shadow: 0 0 18px rgba(100, 140, 255, 0.5);
+      color: var(--text-heading);
+      text-shadow: 0 0 18px var(--glow);
       margin-bottom: 0.3rem;
     }
 
     .subtitle {
       font-size: 0.78rem;
       letter-spacing: 0.18em;
-      color: #7a9acc;
+      color: var(--text-muted);
       text-transform: uppercase;
       margin-bottom: 0.6rem;
     }
 
     .location {
       font-size: 0.82rem;
-      color: #7a9acc;
+      color: var(--text-muted);
       margin-bottom: 1.6rem;
     }
 
-    /* ── Divider ── */
     .divider {
       border: none;
-      border-top: 1px solid rgba(100, 140, 255, 0.15);
+      border-top: 1px solid var(--divider);
       margin: 1.4rem 0;
     }
 
-    /* ── About ── */
     .about {
       font-size: 0.88rem;
       line-height: 1.75;
-      color: #a8bcd8;
+      color: var(--text);
       margin-bottom: 0.4rem;
     }
 
-    /* ── Tags ── */
     .tags {
       display: flex;
       flex-wrap: wrap;
@@ -119,14 +184,13 @@
       font-size: 0.72rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      border: 1px solid rgba(100, 140, 255, 0.2);
+      border: 1px solid var(--tag-border);
       border-radius: 2px;
       padding: 0.25rem 0.65rem;
-      color: #7a9acc;
-      background: rgba(80, 120, 255, 0.06);
+      color: var(--text-muted);
+      background: var(--tag-bg);
     }
 
-    /* ── Links ── */
     .links {
       display: flex;
       flex-wrap: wrap;
@@ -141,18 +205,18 @@
       text-decoration: none;
       font-size: 0.8rem;
       letter-spacing: 0.1em;
-      color: #a0bce8;
-      border: 1px solid rgba(100, 140, 255, 0.2);
+      color: var(--text);
+      border: 1px solid var(--link-border);
       border-radius: 2px;
       padding: 0.45rem 0.9rem;
-      background: rgba(80, 120, 255, 0.06);
+      background: var(--link-bg);
       transition: background 0.2s, box-shadow 0.2s, color 0.2s;
     }
 
     .links a:hover {
-      background: rgba(80, 120, 255, 0.16);
-      box-shadow: 0 0 12px rgba(80, 120, 255, 0.25);
-      color: #e8f0ff;
+      background: var(--link-bg-h);
+      box-shadow: 0 0 12px var(--link-glow-h);
+      color: var(--text-heading);
     }
 
     .links a svg {
@@ -162,11 +226,10 @@
       flex-shrink: 0;
     }
 
-    /* ── Footer note ── */
     .note {
       margin-top: 1.8rem;
       font-size: 0.72rem;
-      color: #4a6a9a;
+      color: var(--text-faint);
       letter-spacing: 0.08em;
     }
   </style>
@@ -174,6 +237,18 @@
 <body>
 
 <canvas id="bg"></canvas>
+
+<button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+    <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+  </svg>
+  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+</button>
 
 <main>
   <div class="card">
@@ -232,192 +307,90 @@
 (function () {
   const canvas = document.getElementById('bg');
   const ctx    = canvas.getContext('2d');
-  const TAU    = Math.PI * 2;
   const CHARS  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&?!<>[]{}αβγδεζθλμξπσφψω';
-
   let W, H, cx, cy, R, t = 0;
-
-  /* ── 3-D sphere: sample points on surface ─────────────── */
-  // We use a Fibonacci sphere for even distribution
-  const N_SPHERE = 2200;
-  const spherePts = []; // {x,y,z} on unit sphere
+  const N_SPHERE = 2200, spherePts = [];
 
   (function buildFibSphere() {
     const golden = Math.PI * (3 - Math.sqrt(5));
     for (let i = 0; i < N_SPHERE; i++) {
-      const y   = 1 - (i / (N_SPHERE - 1)) * 2;
-      const r   = Math.sqrt(1 - y * y);
-      const phi = golden * i;
-      spherePts.push({ x: Math.cos(phi) * r, y, z: Math.sin(phi) * r,
-                       ch: CHARS[i % CHARS.length] });
+      const y = 1 - (i / (N_SPHERE - 1)) * 2;
+      const r = Math.sqrt(1 - y * y), phi = golden * i;
+      spherePts.push({ x: Math.cos(phi) * r, y, z: Math.sin(phi) * r, ch: CHARS[i % CHARS.length] });
     }
   })();
 
-  /* ── Orbital particles ─────────────────────────────────── */
-  const N_PART = 300;
-  const parts  = [];
-
-  function initParts() {
-    parts.length = 0;
-    for (let i = 0; i < N_PART; i++) {
-      // Random orbit plane normal
-      const nx = Math.random() - 0.5;
-      const ny = Math.random() - 0.5;
-      const nz = Math.random() - 0.5;
-      const nl = Math.sqrt(nx*nx + ny*ny + nz*nz);
-      // Two orthogonal vectors in the orbit plane
-      const ux = ny / nl, uy = -nx / nl, uz = 0;
-      const vx = (ny*uz - nz*uy), vy = (nz*ux - nx*uz), vz = (nx*uy - ny*ux);
-      const vl = Math.sqrt(vx*vx + vy*vy + vz*vz) || 1;
-      parts.push({
-        ux, uy, uz,
-        vx: vx/vl, vy: vy/vl, vz: vz/vl,
-        orbitR : 1.04 + Math.random() * 0.12,
-        phase  : Math.random() * TAU,
-        speed  : (0.001 + Math.random() * 0.003) * (Math.random() < 0.5 ? 1 : -1),
-        ch     : CHARS[Math.floor(Math.random() * CHARS.length)],
-        alpha  : 0.4 + Math.random() * 0.55,
-        tick   : Math.floor(Math.random() * 30),
-      });
-    }
-  }
-
-  /* ── Rotate a point around Y then X axes ──────────────── */
   function rotateYX(x, y, z, ry, rx) {
-    // Y rotation
-    let x1 =  x * Math.cos(ry) + z * Math.sin(ry);
-    let y1 =  y;
-    let z1 = -x * Math.sin(ry) + z * Math.cos(ry);
-    // X rotation
-    let x2 = x1;
-    let y2 =  y1 * Math.cos(rx) - z1 * Math.sin(rx);
-    let z2 =  y1 * Math.sin(rx) + z1 * Math.cos(rx);
-    return [x2, y2, z2];
+    const x1 = x * Math.cos(ry) + z * Math.sin(ry), z1 = -x * Math.sin(ry) + z * Math.cos(ry);
+    return [x1, y * Math.cos(rx) - z1 * Math.sin(rx), y * Math.sin(rx) + z1 * Math.cos(rx)];
   }
 
-  /* ── Project 3-D → 2-D ────────────────────────────────── */
-  // Points are in unit-sphere space; multiply by R to get pixels.
-  // Camera sits at z = camZ (in unit-sphere units).
   function project(x, y, z) {
-    const camZ = 2.2;
-    const dz   = camZ + z;
-    const scale = R / camZ;        // so a point at z=0,r=1 maps to R pixels
-    const px   = cx + (x / dz) * scale * camZ;
-    const py   = cy + (y / dz) * scale * camZ;
-    return [px, py, dz];
+    const camZ = 2.2, dz = camZ + z, scale = R / camZ;
+    return [cx + (x / dz) * scale * camZ, cy + (y / dz) * scale * camZ, dz];
   }
 
-  /* ── Init ──────────────────────────────────────────────── */
   function init() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-    W = canvas.width; H = canvas.height;
-    cx = W / 2; cy = H / 2;
-    R  = Math.min(W, H) * 1.25;
-    initParts();
+    canvas.width = W = window.innerWidth;
+    canvas.height = H = window.innerHeight;
+    cx = W / 2; cy = H / 2; R = Math.min(W, H) * 1.25;
   }
 
-  /* ── Draw ──────────────────────────────────────────────── */
   function draw() {
     t += 0.012;
-
-    // Fade
-    ctx.fillStyle = 'rgba(8,12,8,0.35)';
+    const isLight = document.documentElement.dataset.theme === 'light';
+    ctx.fillStyle = isLight ? 'rgba(238,242,248,0.4)' : 'rgba(8,12,8,0.35)';
     ctx.fillRect(0, 0, W, H);
 
-    // Slow auto-rotation + gentle wobble
-    const ry = t * 0.18;
-    const rx = Math.sin(t * 0.11) * 0.4;
-
-    // Breathing: radius pulses
+    const ry = t * 0.18, rx = Math.sin(t * 0.11) * 0.4;
     const breathe = 1 + 0.04 * Math.sin(t * 0.9);
-
-    // ── Sphere dots ──────────────────────────────────────
-    // Collect, sort back-to-front by z, then draw in one pass
     const visible = [];
-    for (const p of spherePts) {
-      // Surface ripple: displace radius by layered waves
-      const theta = Math.atan2(p.z, p.x);
-      const phi   = Math.asin(Math.max(-1, Math.min(1, p.y)));
-      const disp  = 1
-        + 0.028 * Math.sin(4 * theta + t * 1.3)
-        + 0.018 * Math.sin(6 * phi  + t * 0.9)
-        + 0.012 * Math.sin(9 * theta - t * 1.8)
-        + 0.008 * Math.sin(3 * phi  + t * 2.1);
-      const r = breathe * disp;
 
+    for (const p of spherePts) {
+      const theta = Math.atan2(p.z, p.x), phi = Math.asin(Math.max(-1, Math.min(1, p.y)));
+      const disp = 1 + 0.028 * Math.sin(4 * theta + t * 1.3) + 0.018 * Math.sin(6 * phi + t * 0.9)
+                     + 0.012 * Math.sin(9 * theta - t * 1.8) + 0.008 * Math.sin(3 * phi + t * 2.1);
+      const r = breathe * disp;
       const [rx2, ry2, rz2] = rotateYX(p.x * r, p.y * r, p.z * r, ry, rx);
       const [sx, sy, sdz]   = project(rx2, ry2, rz2);
-
-      // Lighting: dot product with light direction (top-left-front)
-      const lx = -0.5, ly = -0.7, lz = 0.5;
-      const nl = Math.sqrt(lx*lx+ly*ly+lz*lz);
+      const lx = -0.5, ly = -0.7, lz = 0.5, nl = Math.sqrt(lx*lx + ly*ly + lz*lz);
       const lit = Math.max(0, (rx2*lx + ry2*ly + rz2*lz) / (r * nl));
-
-      // Back-face: z component after rotation tells us if facing camera
-      const facing = rz2 / r;  // -1=back, +1=front
-
-      // hueShift 0=bottom(blue) .. 1=top(cyan-green), based on original latitude
-      const hueShift = (p.y + 1) * 0.5;
-      visible.push({ sx, sy, sdz, lit, facing, ch: p.ch, hueShift });
+      visible.push({ sx, sy, sdz, lit, facing: rz2 / r, ch: p.ch, hs: (p.y + 1) * 0.5 });
     }
 
-    // Sort back to front
     visible.sort((a, b) => a.sdz - b.sdz);
-
     ctx.font = '11px monospace';
     for (const v of visible) {
       const brightness = 0.15 + v.lit * 0.85;
-      const alpha = v.facing > -0.1
-        ? brightness * 0.9
-        : brightness * 0.15;  // dim back-face dots
-
-      const g = Math.floor(80 + v.lit * 175);
+      const alpha = v.facing > -0.1 ? brightness * 0.9 : brightness * 0.15;
+      const hue = 120 + v.hs * 80;
+      const sat = isLight ? 70 + Math.floor(v.lit * 20) : 80 + Math.floor(v.lit * 20);
+      const lgt = isLight ? 45 - Math.floor(v.lit * 30) : 20 + Math.floor(v.lit * 45);
       ctx.globalAlpha = alpha;
-      // Hue gradient: top=cyan, equator=green, bottom=teal-blue
-      const hue = 120 + v.hueShift * 80;  // 120=green .. 200=cyan-blue
-      const sat = 80 + Math.floor(v.lit * 20);
-      const lgt = 20 + Math.floor(v.lit * 45);
       ctx.fillStyle = `hsl(${hue},${sat}%,${lgt}%)`;
       ctx.fillText(v.ch, v.sx, v.sy);
     }
     ctx.globalAlpha = 1;
-
-    // ── Orbital particles ────────────────────────────────
-    /* DISABLED
-    ctx.font = '13px monospace';
-    for (const p of parts) {
-      p.phase += p.speed;
-      p.tick--;
-      if (p.tick <= 0) {
-        p.ch  = CHARS[Math.floor(Math.random() * CHARS.length)];
-        p.tick = 20 + Math.floor(Math.random() * 40);
-      }
-
-      const angle = p.phase;
-      const or    = p.orbitR;  // already in unit-sphere units, project() scales by R
-      const ox = p.ux * Math.cos(angle) * or + p.vx * Math.sin(angle) * or;
-      const oy = p.uy * Math.cos(angle) * or + p.vy * Math.sin(angle) * or;
-      const oz = p.uz * Math.cos(angle) * or + p.vz * Math.sin(angle) * or;
-
-      const [rx2, ry2, rz2] = rotateYX(ox, oy, oz, ry, rx);
-      const [sx, sy]        = project(rx2, ry2, rz2);
-
-      // Depth-based alpha
-      const depthA = Math.max(0.1, Math.min(1, (rz2 + 2) / 3));
-      ctx.globalAlpha = p.alpha * depthA;
-      ctx.fillStyle   = depthA > 0.6 ? '#ffd97a' : '#b87a20';
-      ctx.fillText(p.ch, sx, sy);
-    }
-    ctx.globalAlpha = 1;
-    */ // END DISABLED
-
     requestAnimationFrame(draw);
   }
 
   init();
   window.addEventListener('resize', init);
   requestAnimationFrame(draw);
+})();
+
+(function () {
+  const btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem('bentr-theme', next);
+  });
+  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
+    if (!localStorage.getItem('bentr-theme'))
+      document.documentElement.dataset.theme = e.matches ? 'light' : 'dark';
+  });
 })();
 </script>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4a78e75351444d45ae0aa448c159423d"}'></script><!-- End Cloudflare Web Analytics -->
