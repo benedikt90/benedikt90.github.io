@@ -86,12 +86,20 @@
     [data-theme="light"] .icon-sun  { display: none; }
 
     .topbar {
-      position: relative; z-index: 2;
+      position: sticky;
+      top: 0;
+      z-index: 2;
       padding: 1rem 2rem;
       display: flex;
       align-items: center;
       border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transform: translateY(0);
+      transition: transform 0.28s ease, opacity 0.28s ease;
     }
+    .topbar.hide { transform: translateY(-100%); opacity: 0; pointer-events: none; }
 
     .topbar > a {
       color: var(--text-muted); text-decoration: none;
@@ -261,6 +269,24 @@
     requestAnimationFrame(draw);
   }
   init(); window.addEventListener('resize',init); requestAnimationFrame(draw);
+})();
+
+(function () {
+  const bar = document.querySelector('.topbar');
+  if (!bar) return;
+  let last = window.scrollY, ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const cur = window.scrollY;
+        if (cur > last && cur > 80) bar.classList.add('hide');
+        else bar.classList.remove('hide');
+        last = cur;
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
 })();
 
 (function () {
