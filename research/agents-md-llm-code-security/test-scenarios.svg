@@ -1,0 +1,106 @@
+<svg viewBox="0 0 892 1130" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono','SF Mono','Fira Code','DejaVu Sans Mono','Courier New',monospace">
+<defs>
+<linearGradient id="cardBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--surface-hover, rgba(6,10,18,0.50))"/><stop offset="1" style="stop-color:var(--surface-hover, rgba(6,10,18,0.50))"/></linearGradient>
+<filter id="cardShadow" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="12" stdDeviation="20" flood-color="#00040a" flood-opacity="0.45"/></filter>
+<filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="5" result="b"/><feFlood style="flood-color:var(--glow, rgba(100,140,255,0.4))" flood-opacity="1" result="f"/><feComposite in="f" in2="b" operator="in" result="g"/><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect x="26" y="24" width="840" height="1068" rx="18" style="fill:var(--surface-hover, rgba(6,10,18,0.50));stroke:var(--border-hover, rgba(100,140,255,0.25));stroke-width:1.5" filter="url(#cardShadow)"/>
+<rect x="27" y="25" width="838" height="2" rx="1" style="fill:#ffffff;fill-opacity:0.04"/>
+<text x="62" y="76" font-size="12.5" letter-spacing="2" style="fill:var(--text-faint, #4a6a9a)">// experimental design</text>
+<text x="62" y="120" font-size="38" font-weight="bold" letter-spacing="1" style="fill:var(--text-heading, #e8f0ff)" filter="url(#glow)">TEST SCENARIOS</text>
+<text x="62" y="148" font-size="14" style="fill:var(--text-desc, #6a8aaa)">How the security-evaluation corpus is constructed</text>
+<line x1="62" y1="166" x2="830" y2="166" style="stroke:var(--border, rgba(100,140,255,0.10));stroke-width:1"/>
+<rect x="62" y="186" width="768" height="96" rx="11" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--border-hover, rgba(100,140,255,0.25));stroke-width:1"/>
+<text x="136.0" y="236" font-size="40" font-weight="bold" style="fill:var(--text-heading, #e8f0ff)" text-anchor="middle">4</text>
+<text x="136.0" y="260" font-size="12.5" letter-spacing="1" style="fill:var(--text-muted, #7a9acc)" text-anchor="middle">models</text>
+<text x="199.0" y="234" font-size="26" style="fill:var(--text-faint, #4a6a9a)" text-anchor="middle">×</text>
+<text x="262.0" y="236" font-size="40" font-weight="bold" style="fill:var(--text-heading, #e8f0ff)" text-anchor="middle">5</text>
+<text x="262.0" y="260" font-size="12.5" letter-spacing="1" style="fill:var(--text-muted, #7a9acc)" text-anchor="middle">tasks</text>
+<text x="325.0" y="234" font-size="26" style="fill:var(--text-faint, #4a6a9a)" text-anchor="middle">×</text>
+<text x="388.0" y="236" font-size="40" font-weight="bold" style="fill:var(--text-heading, #e8f0ff)" text-anchor="middle">4</text>
+<text x="388.0" y="260" font-size="12.5" letter-spacing="1" style="fill:var(--text-muted, #7a9acc)" text-anchor="middle">agents.md</text>
+<text x="451.0" y="234" font-size="26" style="fill:var(--text-faint, #4a6a9a)" text-anchor="middle">×</text>
+<text x="514.0" y="236" font-size="40" font-weight="bold" style="fill:var(--text-heading, #e8f0ff)" text-anchor="middle">2</text>
+<text x="514.0" y="260" font-size="12.5" letter-spacing="1" style="fill:var(--text-muted, #7a9acc)" text-anchor="middle">runs</text>
+<text x="577.0" y="234" font-size="26" style="fill:var(--text-faint, #4a6a9a)" text-anchor="middle">=</text>
+<text x="711.0" y="236" font-size="44" font-weight="bold" style="fill:var(--text-heading, #e8f0ff)" text-anchor="middle" filter="url(#glow)">160</text>
+<text x="711.0" y="260" font-size="12.5" letter-spacing="1.5" style="fill:var(--text-muted, #7a9acc)" text-anchor="middle">samples</text>
+<rect x="62" y="302" width="768" height="156" rx="11" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--border, rgba(100,140,255,0.10));stroke-width:1"/>
+<text x="80" y="329" font-size="13" letter-spacing="2.5" font-weight="bold" style="fill:var(--text-muted, #7a9acc)">MODELS</text>
+<rect x="766" y="314" width="46" height="22" rx="6" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--border-hover, rgba(100,140,255,0.25));stroke-width:1"/>
+<text x="789.0" y="329" font-size="12" font-weight="bold" letter-spacing="1" style="fill:var(--text-muted, #7a9acc)" text-anchor="middle">×4</text>
+<circle cx="89.0" cy="359" r="8" style="fill:#10a37f"/>
+<circle cx="89.0" cy="359" r="8" style="fill:none;stroke:#10a37f;stroke-opacity:0.35;stroke-width:5"/>
+<text x="106.0" y="364" font-size="16" font-weight="bold" style="fill:var(--text-heading, #e8f0ff)">GPT-5.2</text>
+<text x="106.0" y="386" font-size="11" letter-spacing="0.4" style="fill:var(--text-muted, #7a9acc)">▸ thinking · low</text>
+<circle cx="473.0" cy="359" r="8" style="fill:#5b8def"/>
+<circle cx="473.0" cy="359" r="8" style="fill:none;stroke:#5b8def;stroke-opacity:0.35;stroke-width:5"/>
+<text x="490.0" y="364" font-size="16" font-weight="bold" style="fill:var(--text-heading, #e8f0ff)">Gemini Pro 3</text>
+<text x="490.0" y="386" font-size="11" letter-spacing="0.4" style="fill:var(--text-muted, #7a9acc)">▸ thinking · medium</text>
+<circle cx="89.0" cy="409" r="8" style="fill:#d97757"/>
+<circle cx="89.0" cy="409" r="8" style="fill:none;stroke:#d97757;stroke-opacity:0.35;stroke-width:5"/>
+<text x="106.0" y="414" font-size="16" font-weight="bold" style="fill:var(--text-heading, #e8f0ff)">Claude Sonnet 4.5</text>
+<text x="106.0" y="436" font-size="11" letter-spacing="0.4" style="fill:var(--text-faint, #4a6a9a)">▸ standard</text>
+<circle cx="473.0" cy="409" r="8" style="fill:#3fd0c9"/>
+<circle cx="473.0" cy="409" r="8" style="fill:none;stroke:#3fd0c9;stroke-opacity:0.35;stroke-width:5"/>
+<text x="490.0" y="414" font-size="16" font-weight="bold" style="fill:var(--text-heading, #e8f0ff)">SWE-1.5</text>
+<text x="490.0" y="436" font-size="11" letter-spacing="0.4" style="fill:var(--text-faint, #4a6a9a)">▸ standard</text>
+<rect x="62" y="478" width="768" height="224" rx="11" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--border, rgba(100,140,255,0.10));stroke-width:1"/>
+<text x="80" y="505" font-size="13" letter-spacing="2.5" font-weight="bold" style="fill:var(--text-muted, #7a9acc)">TASKS</text>
+<rect x="766" y="490" width="46" height="22" rx="6" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--border-hover, rgba(100,140,255,0.25));stroke-width:1"/>
+<text x="789.0" y="505" font-size="12" font-weight="bold" letter-spacing="1" style="fill:var(--text-muted, #7a9acc)" text-anchor="middle">×5</text>
+<rect x="80" y="522" width="732" height="80" rx="9" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--border, rgba(100,140,255,0.10));stroke-width:1"/>
+<rect x="94" y="536" width="74" height="20" rx="5" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--border-hover, rgba(100,140,255,0.25));stroke-width:1"/>
+<text x="131" y="550" font-size="11" font-weight="bold" letter-spacing="1" style="fill:var(--text-muted, #7a9acc)" text-anchor="middle">FEATURE</text>
+<text x="182" y="551" font-size="13.5" style="fill:var(--text, #c8d8f0)">extend an existing codebase — Issue tracker (with UI)</text>
+<rect x="182" y="566" width="52" height="22" rx="6" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--tag-border, rgba(100,140,255,0.15));stroke-width:1"/>
+<text x="208.0" y="581" font-size="12" style="fill:var(--text, #c8d8f0)" text-anchor="middle">Java</text>
+<rect x="246" y="566" width="70" height="22" rx="6" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--tag-border, rgba(100,140,255,0.15));stroke-width:1"/>
+<text x="281.0" y="581" font-size="12" style="fill:var(--text, #c8d8f0)" text-anchor="middle">Python</text>
+<rect x="328" y="566" width="34" height="22" rx="6" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--tag-border, rgba(100,140,255,0.15));stroke-width:1"/>
+<text x="345.0" y="581" font-size="12" style="fill:var(--text, #c8d8f0)" text-anchor="middle">Go</text>
+<rect x="80" y="614" width="732" height="80" rx="9" style="fill:none;stroke:var(--border, rgba(100,140,255,0.10));stroke-width:1"/>
+<rect x="94" y="628" width="118" height="20" rx="5" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--border-hover, rgba(100,140,255,0.25));stroke-width:1"/>
+<text x="153" y="642" font-size="11" font-weight="bold" letter-spacing="1" style="fill:var(--text-muted, #7a9acc)" text-anchor="middle">FROM SCRATCH</text>
+<text x="226" y="643" font-size="13.5" style="fill:var(--text, #c8d8f0)">greenfield build, no prior code</text>
+<rect x="226" y="658" width="160" height="22" rx="6" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--tag-border, rgba(100,140,255,0.15));stroke-width:1"/>
+<text x="306.0" y="673" font-size="12" style="fill:var(--text, #c8d8f0)" text-anchor="middle">Issue-tracking API</text>
+<rect x="398" y="658" width="120" height="22" rx="6" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--tag-border, rgba(100,140,255,0.15));stroke-width:1"/>
+<text x="458.0" y="673" font-size="12" style="fill:var(--text, #c8d8f0)" text-anchor="middle">Webhook relay</text>
+<rect x="62" y="722" width="768" height="152" rx="11" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--border, rgba(100,140,255,0.10));stroke-width:1"/>
+<text x="80" y="749" font-size="13" letter-spacing="2.5" font-weight="bold" style="fill:var(--text-muted, #7a9acc)">AGENTS.MD PRIMING</text>
+<rect x="766" y="734" width="46" height="22" rx="6" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--border-hover, rgba(100,140,255,0.25));stroke-width:1"/>
+<text x="789.0" y="749" font-size="12" font-weight="bold" letter-spacing="1" style="fill:var(--text-muted, #7a9acc)" text-anchor="middle">×4</text>
+<rect x="84.0" y="768" width="148.0" height="56" rx="8" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--text-very-faint, #2a4a7a);stroke-width:1.3;stroke-opacity:0.7"/>
+<text x="158.0" y="801" font-size="13" style="fill:var(--text-very-faint, #2a4a7a)" text-anchor="middle">∅</text>
+<text x="158.0" y="846" font-size="13" font-weight="bold" style="fill:var(--text-heading, #e8f0ff)" text-anchor="middle">None</text>
+<rect x="276.0" y="768" width="148.0" height="56" rx="8" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--text-faint, #4a6a9a);stroke-width:1.3;stroke-opacity:0.7"/>
+<rect x="292.0" y="780" width="116.0" height="2.4" rx="1" style="fill:var(--text-faint, #4a6a9a);fill-opacity:0.9"/>
+<text x="350.0" y="846" font-size="13" font-weight="bold" style="fill:var(--text-heading, #e8f0ff)" text-anchor="middle">One-liner</text>
+<rect x="468.0" y="768" width="148.0" height="56" rx="8" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--text-muted, #7a9acc);stroke-width:1.3;stroke-opacity:0.7"/>
+<rect x="484.0" y="780" width="116.0" height="2.4" rx="1" style="fill:var(--text-muted, #7a9acc);fill-opacity:0.9"/>
+<rect x="484.0" y="787" width="106.0" height="2.4" rx="1" style="fill:var(--text-muted, #7a9acc);fill-opacity:0.9"/>
+<rect x="484.0" y="794" width="116.0" height="2.4" rx="1" style="fill:var(--text-muted, #7a9acc);fill-opacity:0.9"/>
+<text x="542.0" y="846" font-size="13" font-weight="bold" style="fill:var(--text-heading, #e8f0ff)" text-anchor="middle">One-pager</text>
+<rect x="660.0" y="768" width="148.0" height="56" rx="8" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--text-heading, #e8f0ff);stroke-width:1.3;stroke-opacity:0.7"/>
+<rect x="676.0" y="780" width="116.0" height="2.4" rx="1" style="fill:var(--text-heading, #e8f0ff);fill-opacity:0.9"/>
+<rect x="676.0" y="787" width="106.0" height="2.4" rx="1" style="fill:var(--text-heading, #e8f0ff);fill-opacity:0.9"/>
+<rect x="676.0" y="794" width="116.0" height="2.4" rx="1" style="fill:var(--text-heading, #e8f0ff);fill-opacity:0.9"/>
+<rect x="676.0" y="801" width="106.0" height="2.4" rx="1" style="fill:var(--text-heading, #e8f0ff);fill-opacity:0.9"/>
+<rect x="676.0" y="808" width="116.0" height="2.4" rx="1" style="fill:var(--text-heading, #e8f0ff);fill-opacity:0.9"/>
+<rect x="676.0" y="815" width="106.0" height="2.4" rx="1" style="fill:var(--text-heading, #e8f0ff);fill-opacity:0.9"/>
+<text x="734.0" y="846" font-size="13" font-weight="bold" style="fill:var(--text-heading, #e8f0ff)" text-anchor="middle">Large</text>
+<text x="446.0" y="860" font-size="11.5" letter-spacing="0.5" style="fill:var(--text-faint, #4a6a9a)" text-anchor="middle">∅ none  ——►  increasing project context</text>
+<rect x="62" y="894" width="768" height="76" rx="11" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--border, rgba(100,140,255,0.10));stroke-width:1"/>
+<text x="80" y="921" font-size="13" letter-spacing="2.5" font-weight="bold" style="fill:var(--text-muted, #7a9acc)">RUNS PER CELL</text>
+<rect x="766" y="906" width="46" height="22" rx="6" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--border-hover, rgba(100,140,255,0.25));stroke-width:1"/>
+<text x="789.0" y="921" font-size="12" font-weight="bold" letter-spacing="1" style="fill:var(--text-muted, #7a9acc)" text-anchor="middle">×2</text>
+<text x="80" y="950" font-size="13.5" style="fill:var(--text, #c8d8f0)">Two independent generations per configuration — captures run-to-run variance.</text>
+<rect x="672" y="936" width="62" height="20" rx="5" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--tag-border, rgba(100,140,255,0.15));stroke-width:1"/>
+<text x="703" y="950" font-size="11" style="fill:var(--text-muted, #7a9acc)" text-anchor="middle">▷ run 1</text>
+<rect x="750" y="936" width="62" height="20" rx="5" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--tag-border, rgba(100,140,255,0.15));stroke-width:1"/>
+<text x="781" y="950" font-size="11" style="fill:var(--text-muted, #7a9acc)" text-anchor="middle">▷ run 2</text>
+<rect x="62" y="988" width="768" height="60" rx="11" style="fill:var(--accent-bg, rgba(80,120,255,0.04));stroke:var(--border-hover, rgba(100,140,255,0.25));stroke-width:1.4"/>
+<text x="84" y="1026" font-size="16" font-weight="bold" letter-spacing="1" style="fill:var(--text-heading, #e8f0ff)">4 × 5 × 4 × 2</text>
+<text x="808" y="1026" font-size="17" font-weight="bold" letter-spacing="0.5" style="fill:var(--text-heading, #e8f0ff)" text-anchor="end" filter="url(#glow)">= 160 SAMPLES</text>
+</svg>
