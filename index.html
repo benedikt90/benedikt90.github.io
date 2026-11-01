@@ -3,396 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Benedikt – Security Engineer</title>
-  <script>
-    (function() {
-      var t = localStorage.getItem('bentr-theme') ||
-              (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-      document.documentElement.dataset.theme = t;
-    })();
-  </script>
-  <style>
-    :root {
-      --bg:           #080c08;
-      --card-bg:      rgba(6, 10, 18, 0.22);
-      --border:       rgba(100, 180, 255, 0.12);
-      --text:         #c8d8f0;
-      --text-heading: #e8f0ff;
-      --text-muted:   #7a9acc;
-      --text-faint:   #4a6a9a;
-      --glow:         rgba(100, 140, 255, 0.5);
-      --tag-border:   rgba(100, 140, 255, 0.2);
-      --tag-bg:       rgba(80, 120, 255, 0.06);
-      --link-border:  rgba(100, 140, 255, 0.2);
-      --link-bg:      rgba(80, 120, 255, 0.06);
-      --link-bg-h:    rgba(80, 120, 255, 0.16);
-      --link-glow-h:  rgba(80, 120, 255, 0.25);
-      --divider:      rgba(100, 140, 255, 0.15);
-      --avatar-grad:  linear-gradient(135deg, #5b8aff, #1a2a5e);
-      --avatar-glow:  rgba(80, 120, 255, 0.35);
-    }
-
-    [data-theme="light"] {
-      --bg:           #eef2f8;
-      --card-bg:      rgba(255, 255, 255, 0.82);
-      --border:       rgba(60, 100, 200, 0.18);
-      --text:         #1a2840;
-      --text-heading: #0c1824;
-      --text-muted:   #3a5878;
-      --text-faint:   #5a7898;
-      --glow:         rgba(60, 100, 200, 0.2);
-      --tag-border:   rgba(60, 100, 200, 0.2);
-      --tag-bg:       rgba(60, 100, 200, 0.05);
-      --link-border:  rgba(60, 100, 200, 0.2);
-      --link-bg:      rgba(60, 100, 200, 0.05);
-      --link-bg-h:    rgba(60, 100, 200, 0.14);
-      --link-glow-h:  rgba(60, 100, 200, 0.2);
-      --divider:      rgba(60, 100, 200, 0.15);
-      --avatar-grad:  linear-gradient(135deg, #4a7aee, #1a3a8a);
-      --avatar-glow:  rgba(60, 100, 200, 0.3);
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      height: 100%;
-      background: var(--bg);
-      font-family: 'Courier New', Courier, monospace;
-      overflow-x: hidden;
-      transition: background 0.25s;
-    }
-
-    #bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-    }
-
-    /* ── Theme toggle (fixed top-right) ── */
-    .theme-toggle {
-      position: fixed;
-      top: 1rem;
-      right: 1.25rem;
-      z-index: 10;
-      background: var(--card-bg);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 0.35rem 0.5rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: color 0.2s, border-color 0.2s, background 0.25s;
-    }
-    .theme-toggle:hover { color: var(--text-heading); border-color: var(--link-border); }
-    .theme-toggle svg { width: 14px; height: 14px; }
-    .icon-moon { display: none; }
-    .icon-sun  { display: block; }
-    [data-theme="light"] .icon-moon { display: block; }
-    [data-theme="light"] .icon-sun  { display: none; }
-
-    main {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem 1rem;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      backdrop-filter: blur(9px) saturate(1.2);
-      -webkit-backdrop-filter: blur(9px) saturate(1.2);
-      padding: 2.8rem 3rem;
-      max-width: 540px;
-      width: 100%;
-      box-shadow: 0 0 0 1px var(--tag-bg), 0 8px 48px rgba(0, 0, 0, 0.3);
-      text-align: center;
-      color: var(--text);
-      transition: background 0.25s, border-color 0.25s;
-    }
-
-    .avatar-wrap {
-      display: inline-block;
-      border-radius: 50%;
-      padding: 3px;
-      background: var(--avatar-grad);
-      box-shadow: 0 0 22px var(--avatar-glow);
-      margin-bottom: 1.4rem;
-    }
-
-    .avatar-wrap img {
-      display: block;
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      filter: grayscale(15%) contrast(1.05);
-    }
-
-    h1 {
-      font-size: 2rem;
-      letter-spacing: 0.08em;
-      color: var(--text-heading);
-      text-shadow: 0 0 18px var(--glow);
-      margin-bottom: 0.3rem;
-    }
-
-    .subtitle {
-      font-size: 0.78rem;
-      letter-spacing: 0.18em;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 0.6rem;
-    }
-
-    .location {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-bottom: 1.6rem;
-    }
-
-    .divider {
-      border: none;
-      border-top: 1px solid var(--divider);
-      margin: 1.4rem 0;
-    }
-
-    .about {
-      font-size: 0.88rem;
-      line-height: 1.75;
-      color: var(--text);
-      margin-bottom: 0.4rem;
-    }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      justify-content: center;
-      margin: 1.2rem 0 1.6rem;
-    }
-
-    .tag {
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      border: 1px solid var(--tag-border);
-      border-radius: 2px;
-      padding: 0.25rem 0.65rem;
-      color: var(--text-muted);
-      background: var(--tag-bg);
-    }
-
-    .links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      justify-content: center;
-    }
-
-    .links a {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      text-decoration: none;
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      color: var(--text);
-      border: 1px solid var(--link-border);
-      border-radius: 2px;
-      padding: 0.45rem 0.9rem;
-      background: var(--link-bg);
-      transition: background 0.2s, box-shadow 0.2s, color 0.2s;
-    }
-
-    .links a:hover {
-      background: var(--link-bg-h);
-      box-shadow: 0 0 12px var(--link-glow-h);
-      color: var(--text-heading);
-    }
-
-    .links a svg {
-      width: 15px;
-      height: 15px;
-      fill: currentColor;
-      flex-shrink: 0;
-    }
-
-    .note {
-      margin-top: 1.8rem;
-      font-size: 0.72rem;
-      color: var(--text-faint);
-      letter-spacing: 0.08em;
-    }
-  </style>
+  <title>Benedikt – AppSec Specialist</title>
+  <meta name="description" content="AppSec specialist based in Switzerland, bringing people together to protect environments. Building secure applications, exploring the Swiss Alps, and sharing security research." />
+  <link rel="canonical" href="https://bentr.de/" />
+  <meta property="og:title" content="Benedikt – AppSec Specialist" />
+  <meta property="og:description" content="AppSec specialist, bringing people together to protect environments. Based in Switzerland." />
+  <meta property="og:image" content="https://bentr.de/me.webp" />
+  <meta property="og:url" content="https://bentr.de/" />
+  <script src="/assets/theme-init.js"></script>
+  <link rel="stylesheet" href="/assets/site.css" />
+  <script src="/assets/site.js" defer></script>
+  <script src="/assets/glyph-sphere.js" defer></script>
 </head>
-<body>
-
-<canvas id="bg"></canvas>
-
-<button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-  <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-    <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-  </svg>
-  <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-  </svg>
-</button>
-
-<main>
-  <div class="card">
-    <div class="avatar-wrap">
-      <img src="me.webp" alt="Benedikt" />
+<body id="top">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header shell">
+    <a class="wordmark" href="/" aria-current="page"><span class="prompt" aria-hidden="true">~/</span>Benedikt</a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="/research/">Research</a>
+      <a href="mailto:b_t+linktree@posteo.co">Contact</a>
+    </nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/></svg>
+    </button>
+  </header>
+  <main class="shell home-main" id="main">
+    <div class="sphere-backdrop hero-backdrop" aria-hidden="true">
+      <canvas class="glyph-sphere" data-motion="continuous" data-motion-toggle="motion-toggle" aria-hidden="true"></canvas>
     </div>
-
-    <h1>Benedikt</h1>
-    <p class="subtitle">Security Engineer &nbsp;·&nbsp; Tinkerer &nbsp;·&nbsp; Hiker</p>
-    <p class="location">📍 Switzerland 🇨🇭</p>
-
-    <hr class="divider" />
-
-    <p class="about">
-      Passionate about building secure systems and exploring the Swiss Alps.
-      When I'm not hardening infrastructure, I'm tinkering with new tech or chasing mountain summits.
-    </p>
-
-    <div class="tags">
-      <span class="tag">Security Engineering</span>
-      <span class="tag">Infrastructure</span>
-      <span class="tag">Mountain Adventures</span>
-      <span class="tag">Open Source</span>
-    </div>
-
-    <hr class="divider" />
-
-    <div class="links">
-      <a href="https://www.linkedin.com/in/btroe/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        LinkedIn
-      </a>
-      <a href="https://github.com/benedikt90" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-        GitHub
-      </a>
-      <a href="mailto:b_t+linktree@posteo.co">
-        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
-        Email
-      </a>
-      <a href="https://ko-fi.com/bened1kt" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.565-1.782 3.468-.963 1.904.82 1.832 3.011.723 4.311zm6.173.478c-.928.116-1.682.028-1.682.028V7.284h1.77s1.971.551 1.971 2.638c0 1.913-.985 2.667-2.059 3.015z"/></svg>
-        Ko-fi
-      </a>
-      <a href="research/">
-        <svg viewBox="0 0 24 24"><path d="M9 4.5a.75.75 0 0 1 .75.75v.75H12a.75.75 0 0 1 0 1.5H9.75V9a.75.75 0 0 1-1.5 0V7.5H6a.75.75 0 0 1 0-1.5h2.25V5.25A.75.75 0 0 1 9 4.5zM4.5 12a.75.75 0 0 1 .75-.75H18a.75.75 0 0 1 0 1.5H5.25A.75.75 0 0 1 4.5 12zm.75 3.75a.75.75 0 0 0 0 1.5h13.5a.75.75 0 0 0 0-1.5H5.25z"/></svg>
-        Research
-      </a>
-    </div>
-
-    <p class="note">// feel free to reach out for collaborations or just a friendly chat</p>
-  </div>
-</main>
-
-<script>
-(function () {
-  const canvas = document.getElementById('bg');
-  const ctx    = canvas.getContext('2d');
-  const CHARS  = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&?!<>[]{}αβγδεζθλμξπσφψω';
-  let W, H, cx, cy, R, t = 0;
-  const N_SPHERE = 2200, spherePts = [];
-
-  (function buildFibSphere() {
-    const golden = Math.PI * (3 - Math.sqrt(5));
-    for (let i = 0; i < N_SPHERE; i++) {
-      const y = 1 - (i / (N_SPHERE - 1)) * 2;
-      const r = Math.sqrt(1 - y * y), phi = golden * i;
-      spherePts.push({ x: Math.cos(phi) * r, y, z: Math.sin(phi) * r, ch: CHARS[i % CHARS.length] });
-    }
-  })();
-
-  function rotateYX(x, y, z, ry, rx) {
-    const x1 = x * Math.cos(ry) + z * Math.sin(ry), z1 = -x * Math.sin(ry) + z * Math.cos(ry);
-    return [x1, y * Math.cos(rx) - z1 * Math.sin(rx), y * Math.sin(rx) + z1 * Math.cos(rx)];
-  }
-
-  function project(x, y, z) {
-    const camZ = 2.2, dz = camZ + z, scale = R / camZ;
-    return [cx + (x / dz) * scale * camZ, cy + (y / dz) * scale * camZ, dz];
-  }
-
-  function init() {
-    canvas.width = W = window.innerWidth;
-    canvas.height = H = window.innerHeight;
-    cx = W / 2; cy = H / 2; R = Math.min(W, H) * 1.25;
-  }
-
-  function draw() {
-    t += 0.012;
-    const isLight = document.documentElement.dataset.theme === 'light';
-    ctx.fillStyle = isLight ? 'rgba(238,242,248,0.4)' : 'rgba(8,12,8,0.35)';
-    ctx.fillRect(0, 0, W, H);
-
-    const ry = t * 0.18, rx = Math.sin(t * 0.11) * 0.4;
-    const breathe = 1 + 0.04 * Math.sin(t * 0.9);
-    const visible = [];
-
-    for (const p of spherePts) {
-      const theta = Math.atan2(p.z, p.x), phi = Math.asin(Math.max(-1, Math.min(1, p.y)));
-      const disp = 1 + 0.028 * Math.sin(4 * theta + t * 1.3) + 0.018 * Math.sin(6 * phi + t * 0.9)
-                     + 0.012 * Math.sin(9 * theta - t * 1.8) + 0.008 * Math.sin(3 * phi + t * 2.1);
-      const r = breathe * disp;
-      const [rx2, ry2, rz2] = rotateYX(p.x * r, p.y * r, p.z * r, ry, rx);
-      const [sx, sy, sdz]   = project(rx2, ry2, rz2);
-      const lx = -0.5, ly = -0.7, lz = 0.5, nl = Math.sqrt(lx*lx + ly*ly + lz*lz);
-      const lit = Math.max(0, (rx2*lx + ry2*ly + rz2*lz) / (r * nl));
-      visible.push({ sx, sy, sdz, lit, facing: rz2 / r, ch: p.ch, hs: (p.y + 1) * 0.5 });
-    }
-
-    visible.sort((a, b) => a.sdz - b.sdz);
-    ctx.font = '11px monospace';
-    for (const v of visible) {
-      const brightness = 0.15 + v.lit * 0.85;
-      const alpha = v.facing > -0.1 ? brightness * 0.9 : brightness * 0.15;
-      const hue = 120 + v.hs * 80;
-      const sat = isLight ? 70 + Math.floor(v.lit * 20) : 80 + Math.floor(v.lit * 20);
-      const lgt = isLight ? 45 - Math.floor(v.lit * 30) : 20 + Math.floor(v.lit * 45);
-      ctx.globalAlpha = alpha;
-      ctx.fillStyle = `hsl(${hue},${sat}%,${lgt}%)`;
-      ctx.fillText(v.ch, v.sx, v.sy);
-    }
-    ctx.globalAlpha = 1;
-    requestAnimationFrame(draw);
-  }
-
-  init();
-  window.addEventListener('resize', init);
-  requestAnimationFrame(draw);
-})();
-
-(function () {
-  const btn = document.getElementById('theme-toggle');
-  if (!btn) return;
-  btn.addEventListener('click', () => {
-    const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
-    document.documentElement.dataset.theme = next;
-    localStorage.setItem('bentr-theme', next);
-  });
-  window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
-    if (!localStorage.getItem('bentr-theme'))
-      document.documentElement.dataset.theme = e.matches ? 'light' : 'dark';
-  });
-})();
-</script>
-<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "4a78e75351444d45ae0aa448c159423d"}'></script><!-- End Cloudflare Web Analytics -->
+    <section class="hero" aria-labelledby="intro-title">
+      <div>
+        <p class="meta terminal-note">Based in Switzerland</p>
+        <h1 id="intro-title">Benedikt</h1>
+        <p class="role">AppSec specialist,<br />bringing people together<br />to protect environments</p>
+        <p class="about">I help teams build secure applications and protect the environments they run in. Away from the keyboard, I’m usually tinkering with new tech or exploring the Swiss Alps.</p>
+        <ul class="interests" aria-label="Interests">
+          <li>Application security</li>
+          <li>Infrastructure</li>
+          <li>Mountain adventures</li>
+          <li>Open source</li>
+        </ul>
+        <div class="hero-actions">
+          <a class="button button-primary" href="/research/">Read my research <span aria-hidden="true">→</span></a>
+          <a class="button" href="mailto:b_t+linktree@posteo.co">Get in touch</a>
+        </div>
+      </div>
+      <figure class="portrait">
+        <div class="portrait-stage">
+          <img src="/me.webp" alt="Benedikt smiling in front of a pixel-art alpine landscape" width="1000" height="1000" fetchpriority="high" />
+        </div>
+        <figcaption class="meta">
+          <span class="terminal-note">Away from the keyboard</span>
+          <button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="false" hidden>Pause motion</button>
+        </figcaption>
+      </figure>
+    </section>
+  </main>
+  <footer class="site-footer shell">
+    <p>For collaborations or a friendly chat, get in touch.</p>
+    <nav class="social-links" aria-label="Find me elsewhere">
+      <a href="https://www.linkedin.com/in/btroe/" target="_blank" rel="noopener">LinkedIn <span class="visually-hidden">(opens in a new tab)</span></a>
+      <a href="https://github.com/benedikt90" target="_blank" rel="noopener">GitHub <span class="visually-hidden">(opens in a new tab)</span></a>
+      <a href="https://ko-fi.com/bened1kt" target="_blank" rel="noopener">Ko-fi <span class="visually-hidden">(opens in a new tab)</span></a>
+    </nav>
+  </footer>
+  <!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4a78e75351444d45ae0aa448c159423d"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
