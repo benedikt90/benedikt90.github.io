@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {% block metadata %}{% endblock %}
+  <script src="/assets/theme-init.js"></script>
+  <link rel="stylesheet" href="/assets/site.css" />
+  <script src="/assets/site.js" defer></script>
+  <script src="/assets/glyph-sphere.js" defer></script>
+</head>
+<body id="top" class="research-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="sphere-backdrop research-backdrop" aria-hidden="true">
+    <canvas class="glyph-sphere" data-motion="slow" data-motion-toggle="motion-toggle" aria-hidden="true"></canvas>
+  </div>
+  <header class="site-header shell">
+    <a class="wordmark" href="/"><span class="prompt" aria-hidden="true">~/</span>{{ site_title | e }}</a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="/research/"{% block research_current %}{% endblock %}>Research</a>
+      <a href="mailto:b_t+linktree@posteo.co">Contact</a>
+    </nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch theme">
+      <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z"/></svg>
+    </button>
+  </header>
+  {% block content %}{% endblock %}
+  <footer class="site-footer shell">
+    <p>{{ site_title | e }} / Security research &amp; writing</p>
+    <nav class="social-links" aria-label="Footer navigation">
+      <button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="false" hidden>Pause motion</button>
+      <a href="/">Home</a>
+      <a href="https://github.com/benedikt90" target="_blank" rel="noopener">GitHub <span class="visually-hidden">(opens in a new tab)</span></a>
+      <a class="back-top" href="#top">Back to top <span aria-hidden="true">↑</span></a>
+    </nav>
+  </footer>
+  <!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "4a78e75351444d45ae0aa448c159423d"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
