@@ -5,3 +5,8 @@ robots.txt
 __pycache__/
 *.pyc
 .venv/
+
+# Local OS and assistant files
+.DS_Store
+*serena*
+*headroom*
